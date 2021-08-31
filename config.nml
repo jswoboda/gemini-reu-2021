@@ -1,0 +1,37 @@
+&base
+ymd = 2021,10,5       ! year month day date
+UTsec0 = 0.0            !start time in seconds
+tdur = 600.0             !tdur: length of sim in seconds
+dtout = 120.0                          !dtout: how often to do output
+activ=104.7,129.5,37.0              !activ:  f107a,f107,Ap
+tcfl=0.9                           !tcfl:  target cfl number
+Teinf=1500.0                        !Teinf:  exospheric electron temperature
+/
+
+&flags
+potsolve = 0        ! solve electrodynamics:   0 - no; 1 - electrostatic; 2 - inductive
+flagperiodic = 0    ! whether periodic
+flagoutput = 1      ! 1 - full parameter output
+/
+
+&setup
+glat=55
+glon=285
+xdist = 2500e3              ! eastward distance (meters)
+ydist = 4500e3               ! northward distance (meters)
+alt_min = 80e3              ! minimum altitude (meters)
+alt_max = 900e3             ! maximum altitude (meters)
+!alt_scale = 6e3, 1e3, 500e3, 150e3  ! altitude grid scales (meters)
+alt_scale = 10.9e3, 8e3, 500e3, 150e3
+lxp  = 108              ! number of x-cells
+lyp = 128                   ! number of y-cells
+Bincl = 90                  ! geomagnetic inclination
+nmf = 5e11
+nme = 2e11
+/
+
+&files
+indat_size = 'inputs/simsize.h5'
+indat_grid = 'inputs/simgrid.h5'
+indat_file = 'inputs/initial_conditions.h5'
+/
