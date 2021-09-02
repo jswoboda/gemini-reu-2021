@@ -6,7 +6,7 @@
 For some more detailed information on software, various commands, and requesting an account see: https://supercloud.mit.edu/
 To begin, GEMINI must be first installed on the login node because compute nodes do not have an internet connection:
 ```bash
-ssh <username>@txe1-login.mit.edu 
+ssh <username>@txe1-login.mit.edu
 ```
 
 Building GEMINI on Supercloud is not too different than setting up on a personal computer:
@@ -35,13 +35,13 @@ A full compile will take approximate 1-5 minutes depending on which packages nee
 Another important software to install is PyGemini. PyGemini is a Python frontend for GEMINI. It contains several useful utilities such as grid generation and input interprolation. Install it with Anaconda.
 
 ``` bash
-module load anaconda/2021a 
+module load anaconda/2021a
 git clone https://github.com/gemini3d/pygemini
 pip install --user -e pygemini
 ```
 
 PyGEMINI needs enviroment variable GEMINI_ROOT to be set to top level Gemini directory. NOTE: There should be a way to do this permanently, but editing .profile and .bashrc don't work. For now you have to do this once every shell session you want to use PyGemini
- 
+
 ``` bash
  export GEMINI_ROOT=/insert_path_here/gemini3d/
 ```
@@ -82,7 +82,7 @@ alt_min = 80e3              ! minimum altitude (meters)
 alt_max = 900e3             ! maximum altitude (meters)
 !alt_scale = 6e3, 1e3, 500e3, 150e3  ! altitude grid scales (meters)
 alt_scale = 10.9e3, 8e3, 500e3, 150e3
-lxp  = 102              ! number of x-cells
+lxp  = 108              ! number of x-cells
 lyp = 128                   ! number of y-cells
 Bincl = 90                  ! geomagnetic inclination
 nmf = 5e11
@@ -95,16 +95,19 @@ indat_grid = 'inputs/simgrid.h5'
 indat_file = 'inputs/initial_conditions.h5'
 /
 
-``` 
+```
 
-Now, we can try seting up the input files. A Python script works, but ipython may be easier
+Now, we can try setting up the input files. A Python script works, but ipython may be easier
 
 ``` bash
 ipython
 import gemini3d.model as g
 g.setup("config.nml",'.')
 exit
+#or
+python -c "import gemini3d.model as g;g.setup('config.nml','.')"
 ```
+
 For somewhat large grids (>1M grid cells), this may take a while. Ours should take about a minute or two.
 ### Batch job submission ###
 Now to run the example. Supercloud uses a SLURM scheduler, for this example we will must use of it. Create a batch file like so:
@@ -133,7 +136,7 @@ source /etc/profile
 module load mpi/openmpi-4.1.0
 
 #Resolve "No Open Fabrics Error" with confusing and long flag list
-#From: "What is this message I get when I try to run MPI with the new OpenMPI module?"-> https://supercloud.mit.edu/transition-guide 
+#From: "What is this message I get when I try to run MPI with the new OpenMPI module?"-> https://supercloud.mit.edu/transition-guide
 
 OPENMPI_OPTS="${OPENMPI_OPTS} --mca pml ob1 --mca btl openib,self,vader --mca btl_openib_cpc_include rdmacm --mca btl_openib_rroce_enable 1 "
 OPENMPI_OPTS="${OPENMPI_OPTS} --mca btl_openib_receive_queues P,128,64,32,32,32:S,2048,1024,128,32:S,12288,1024,128,32:S,65536,1024,128,32 "
@@ -146,7 +149,7 @@ Finally, to submit the job:
 ``` batch
 sbatch gemini_test.sh
 ```
-To check the status of your current jobs, use 
+To check the status of your current jobs, use
 ``` batch
 LLstat
 ```
@@ -170,4 +173,3 @@ Once your simulation is finished. Rysnc the files you need to your personal comp
 ```bash
 rsync -av --progress username@txe1-login.mit.edu:~/GEMINI_example .
 ```
- 
