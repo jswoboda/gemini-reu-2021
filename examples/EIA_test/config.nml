@@ -20,7 +20,7 @@ lphi = 1
 gridflag = 1
 nme = 2e11
 nmf = 5e11
-eq_dir='/home/wrightig/simulations/win_redo_sim"
+eq_dir='/home/wrightig/simulations/EIA_test_eq"
 /
 
 &flags
